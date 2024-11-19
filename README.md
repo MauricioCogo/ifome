@@ -1,5 +1,5 @@
-banco bdifome
-
+## Banco bdifome
+```SQL
 CREATE TABLE `usuario` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`nome` VARCHAR(100) NOT NULL DEFAULT '0' COLLATE 'utf8mb4_0900_ai_ci',
