@@ -1,17 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5"
     tools:context=".TelaPrincipal">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tela Principal"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="36dp" />
+    <!-- Header with Logo -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="#FF0000"
+        android:scaleType="centerInside"
+        android:contentDescription="Logo"
+        android:src="@drawable/logoifome" />
 
+    <!-- Main Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#FFFFFF"
+        android:layout_margin="16dp"
+        android:elevation="2dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Selecione o tipo de pedido"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textColor="#333333"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Radio Group for Selection -->
+        <RadioGroup
+            android:id="@+id/radioGroupType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/rbPizza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pizza"
+                android:textSize="16sp"
+                android:textColor="#666666" />
+
+            <RadioButton
+                android:id="@+id/rbBebida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bebida"
+                android:textSize="16sp"
+                android:textColor="#666666"
+                android:layout_marginStart="16dp" />
+        </RadioGroup>
+
+        <!-- Fields for Pizza -->
+        <LinearLayout
+            android:id="@+id/pizzaFields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tamanho"
+                android:textSize="18sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/edtPizzaSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:padding="12dp"
+                android:hint="Informe o tamanho da pizza"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sabor"
+                android:textSize="18sp"
+                android:textColor="#666666"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/edtPizzaFlavor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:padding="12dp"
+                android:hint="Informe o sabor da pizza"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Fields for Bebida -->
+        <LinearLayout
+            android:id="@+id/bebidaFields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrição da Bebida"
+                android:textSize="18sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/edtBebidaDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:padding="12dp"
+                android:hint="Informe a descrição da bebida"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Boolean for Entrega -->
+        <CheckBox
+            android:id="@+id/cbEntrega"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Entrega"
+            android:textSize="16sp"
+            android:textColor="#666666"
+            android:layout_marginTop="24dp" />
+
+        <!-- Address Field -->
+        <LinearLayout
+            android:id="@+id/addressField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Endereço"
+                android:textSize="18sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/edtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:padding="12dp"
+                android:hint="Informe o endereço"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#FF0000"
+            android:textColor="#FFFFFF"
+            android:text="Finalizar Pedido"
+            android:textSize="18sp" />
+    </LinearLayout>
 </LinearLayout>

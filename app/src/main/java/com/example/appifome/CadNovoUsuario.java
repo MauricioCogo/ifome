@@ -18,10 +18,12 @@ public class CadNovoUsuario extends AppCompatActivity {
     Button btretorna, btregistra;
     EditText edtlogin, edtsenha,edtendereco,edtfone,edtcidade;
     usuario usrtemp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cad_novo_ususario);
+
         btretorna = (Button) findViewById(R.id.btregretornar);
         btregistra = (Button) findViewById(R.id.btregregistrar);
         edtlogin=(EditText) findViewById(R.id.edtreglogin);
@@ -29,6 +31,7 @@ public class CadNovoUsuario extends AppCompatActivity {
         edtendereco=(EditText) findViewById(R.id.edtregendereco);
         edtfone=(EditText) findViewById(R.id.edtregfone);
         edtcidade=(EditText) findViewById(R.id.edtregcidade);
+
         btregistra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,19 +47,25 @@ public class CadNovoUsuario extends AppCompatActivity {
             }
         });
     }
+
     class Enviajsonpost extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... arg0) {
             try {
-                String url = "http://200.132.17.157/ifome/cadastra_usuario.php";
+                String url = "http://192.168.1.6/PHP/ifome/cadastra_usuario.php";
                 JSONObject jsonValores = new JSONObject();
+
                 jsonValores.put("nome", usrtemp.getNome().toString() );
                 jsonValores.put("senha", usrtemp.getSenha().toString() );
                 jsonValores.put("endereco", usrtemp.getEndereco().toString());
                 jsonValores.put("fone", usrtemp.getFone().toString());
                 jsonValores.put("cidade", usrtemp.getCidade().toString());
+
                 conexaouniversal mandar = new conexaouniversal();
-                String mensagem=mandar.postJSONObject(url,jsonValores);
+
+                String mensagem = mandar.postJSONObject(url,jsonValores);
+
+                return mensagem;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,12 +94,8 @@ public class CadNovoUsuario extends AppCompatActivity {
                 result.append(URLEncoder.encode(key, "UTF-8"));
                 result.append("=");
                 result.append(URLEncoder.encode(value.toString(), "UTF-8"));
-
             }
             return result.toString();
         }
-
-
     }
-
 }

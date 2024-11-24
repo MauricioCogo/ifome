@@ -10,38 +10,30 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.net.URLEncoder;
-import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
     Button btlogar;
     TextView linkregistro;
-    EditText edtlogin,edtsenha;
-    String txtretorno="";
-    String login="";
-    String senha="";
+    EditText edtlogin, edtsenha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        edtlogin=(EditText)findViewById(R.id.edtusr);
-        edtsenha=(EditText)findViewById(R.id.edtsenha);
 
-        btlogar=(Button) findViewById(R.id.btlogar);
+        edtlogin = findViewById(R.id.edtusr);
+        edtsenha = findViewById(R.id.edtsenha);
+        btlogar = findViewById(R.id.btlogar);
+
         btlogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new EnviajsonpostLogineSenha().execute();
-         }
+            }
         });
 
-
-
-        linkregistro =(TextView) findViewById(R.id.linkCriaConta);
+        linkregistro = findViewById(R.id.linkCriaConta);
         linkregistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,72 +42,58 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     class EnviajsonpostLogineSenha extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... arg0) {
             try {
-                String url = "http://200.132.17.157/ifome/consulta_login.php";
+                String url = "http://192.168.1.6/PHP/ifome/consulta_login.php";
                 JSONObject jsonValores = new JSONObject();
-                jsonValores.put("login", edtlogin.getText().toString());
+                jsonValores.put("nome", edtlogin.getText().toString());
                 jsonValores.put("senha", edtsenha.getText().toString());
                 conexaouniversal mandar = new conexaouniversal();
-                String mensagem=mandar.postJSONObject(url,jsonValores);
-
-                try{
-                    JSONObject jsonobjc = new JSONObject(mensagem);
-                    JSONArray jsonvet = jsonobjc.getJSONArray("usuario");
-                    for(int i=0;i<jsonvet.length();i++){
-                        JSONObject jsonitem=jsonvet.getJSONObject(i);
-                        login=jsonitem.optString("nome").toString();
-                        senha=jsonitem.optString("senha").toString();
-                    }
-                    if ((edtlogin.getText().toString().equals(login))&&(edtsenha.getText().toString().equals(senha)))
-                    {
-                        Intent i = new Intent(getApplicationContext(), TelaPrincipal.class);
-                        startActivity(i);
-                    }
-
-                }catch (Exception ex){
-                    Toast.makeText(MainActivity.this,"Problemas ao tentar conectar",Toast.LENGTH_LONG).show();
-                }
-
-
+                System.out.println(jsonValores);
+                return mandar.postJSONObject(url, jsonValores); // Retorna a mensagem para o onPostExecute
             } catch (Exception e) {
                 e.printStackTrace();
+                return null;
             }
-
-            return null;
         }
 
-        public String getPostDataString(JSONObject params) throws Exception {
+        @Override
+        protected void onPostExecute(String mensagem) {
+            super.onPostExecute(mensagem);
 
-            StringBuilder result = new StringBuilder();
-            boolean first = true;
+            try {
+                if (mensagem != null && mensagem.contains("SUCCESS")) {
+                    JSONObject response = new JSONObject(mensagem);
+                    JSONObject usuario = response.getJSONObject("usuario");
 
-            Iterator<String> itr = params.keys();
+                    // Extraindo informações do usuário
+                    String idString = usuario.getString("id");
+                    String nome = usuario.getString("nome");
+                    String senha = usuario.getString("senha");
+                    String endereco = usuario.getString("endereço");
+                    String telefone = usuario.getString("fone");
+                    String cidade = usuario.getString("cidade");
 
-            while(itr.hasNext()){
-
-                String key= itr.next();
-                Object value = params.get(key);
-
-                if (first)
-                    first = false;
-                else
-                    result.append("&");
-
-                result.append(URLEncoder.encode(key, "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(value.toString(), "UTF-8"));
-
+                    // Enviando informações para a próxima tela
+                    Intent i = new Intent(getApplicationContext(), TelaPrincipal.class);
+                    i.putExtra("id", idString);
+                    i.putExtra("nome", nome);
+                    i.putExtra("senha", senha);
+                    i.putExtra("endereco", endereco);
+                    i.putExtra("telefone", telefone);
+                    i.putExtra("cidade", cidade);
+                    startActivity(i);
+                } else if (mensagem != null && mensagem.contains("ERROR")) {
+                    Toast.makeText(MainActivity.this, "Login incorreto!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Erro ao conectar com o servidor!", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception ex) {
+                Toast.makeText(MainActivity.this, "Erro inesperado: " + ex.getMessage(), Toast.LENGTH_LONG).show();
             }
-            return result.toString();
         }
-
-
     }
-
-
-
-
 }
