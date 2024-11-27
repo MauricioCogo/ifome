@@ -1,166 +1,171 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#F5F5F5"
     tools:context=".CadNovoUsuario">
 
-    <!-- Header with Logo -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:background="#FF0000"
-        android:scaleType="centerInside"
-        android:contentDescription="Logo"
-        android:src="@drawable/logoifome" />
-
-    <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="#FFFFFF"
-        android:layout_margin="16dp"
-        android:elevation="2dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/textView6"
+        <!-- Header com logo -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:background="#FF0000"
+            android:scaleType="centerInside"
+            android:contentDescription="Logo"
+            android:src="@drawable/logoifome" />
+
+        <!-- Conteúdo principal -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cadastro de novo usuário"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textColor="#333333"
-            android:fontFamily="sans-serif-medium"
-            android:layout_marginBottom="16dp" />
+            android:layout_margin="16dp"
+            android:background="#FFFFFF"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- Nome -->
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Nome"
-            android:textSize="18sp"
-            android:textColor="#666666"
-            android:layout_marginBottom="8dp" />
+            <!-- Título -->
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Cadastro de novo usuário"
+                android:textAlignment="center"
+                android:textColor="#333333"
+                android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/edtreglogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EEEEEE"
-            android:padding="12dp"
-            android:hint="Digite seu nome"
-            android:textSize="16sp" />
+            <!-- Nome -->
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Nome"
+                android:textColor="#666666"
+                android:textSize="18sp" />
 
-        <!-- Senha -->
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Senha"
-            android:textSize="18sp"
-            android:textColor="#666666"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            <EditText
+                android:id="@+id/edtreglogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:hint="Digite seu nome"
+                android:padding="12dp"
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/edtregsenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EEEEEE"
-            android:padding="12dp"
-            android:hint="Digite sua senha"
-            android:inputType="textPassword"
-            android:textSize="16sp" />
+            <!-- Senha -->
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Senha"
+                android:textColor="#666666"
+                android:textSize="18sp" />
 
-        <!-- Endereço -->
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Endereço"
-            android:textSize="18sp"
-            android:textColor="#666666"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            <EditText
+                android:id="@+id/edtregsenha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:hint="Digite sua senha"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/edtregendereco"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EEEEEE"
-            android:padding="12dp"
-            android:hint="Digite seu endereço"
-            android:textSize="16sp" />
+            <!-- Endereço -->
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Endereço"
+                android:textColor="#666666"
+                android:textSize="18sp" />
 
-        <!-- Telefone -->
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fone"
-            android:textSize="18sp"
-            android:textColor="#666666"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            <EditText
+                android:id="@+id/edtregendereco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:hint="Digite seu endereço"
+                android:padding="12dp"
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/edtregfone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EEEEEE"
-            android:padding="12dp"
-            android:hint="Digite seu telefone"
-            android:textSize="16sp" />
+            <!-- Telefone -->
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Fone"
+                android:textColor="#666666"
+                android:textSize="18sp" />
 
-        <!-- Cidade -->
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cidade"
-            android:textSize="18sp"
-            android:textColor="#666666"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp" />
+            <EditText
+                android:id="@+id/edtregfone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:hint="Digite seu telefone"
+                android:padding="12dp"
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/edtregcidade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#EEEEEE"
-            android:padding="12dp"
-            android:hint="Digite sua cidade"
-            android:textSize="16sp" />
+            <!-- Cidade -->
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="Cidade"
+                android:textColor="#666666"
+                android:textSize="18sp" />
 
-        <!-- Buttons -->
-        <Button
-            android:id="@+id/btregregistrar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="#FF0000"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:text="Registrar" />
+            <EditText
+                android:id="@+id/edtregcidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:hint="Digite sua cidade"
+                android:padding="12dp"
+                android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/btregretornar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="#FF0000"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:text="Retornar" />
+            <!-- Botão de Registrar -->
+            <Button
+                android:id="@+id/btregregistrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="#FF0000"
+                android:text="Registrar"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <!-- Botão de Retornar -->
+            <Button
+                android:id="@+id/btregretornar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#FF0000"
+                android:text="Retornar"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

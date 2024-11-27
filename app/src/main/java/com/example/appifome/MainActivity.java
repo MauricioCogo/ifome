@@ -1,7 +1,9 @@
 package com.example.appifome;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -47,13 +49,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             try {
-                String url = "http://192.168.1.6/PHP/ifome/consulta_login.php";
+                String url = "http://200.132.172.207/PHP/consulta_login.php";
                 JSONObject jsonValores = new JSONObject();
                 jsonValores.put("nome", edtlogin.getText().toString());
                 jsonValores.put("senha", edtsenha.getText().toString());
                 conexaouniversal mandar = new conexaouniversal();
                 System.out.println(jsonValores);
-                return mandar.postJSONObject(url, jsonValores); // Retorna a mensagem para o onPostExecute
+                String mensagem = mandar.postJSONObject(url, jsonValores);
+
+                if (mensagem.contains("ERROR")){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setTitle("Login incorreto");
+                            builder.setMessage("Verifique o login, a senha ou a conexão com a internet e tente novamente!");
+
+                            builder.setPositiveButton("OK", null);
+
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                    });
+                }
+
+                return mensagem;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -69,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject response = new JSONObject(mensagem);
                     JSONObject usuario = response.getJSONObject("usuario");
 
-                    // Extraindo informações do usuário
                     String idString = usuario.getString("id");
                     String nome = usuario.getString("nome");
                     String senha = usuario.getString("senha");
@@ -77,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                     String telefone = usuario.getString("fone");
                     String cidade = usuario.getString("cidade");
 
-                    // Enviando informações para a próxima tela
                     Intent i = new Intent(getApplicationContext(), TelaPrincipal.class);
                     i.putExtra("id", idString);
                     i.putExtra("nome", nome);

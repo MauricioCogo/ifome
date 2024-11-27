@@ -1,7 +1,9 @@
 package com.example.appifome;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +33,6 @@ public class TelaPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_principal);
 
-        // Inicialização dos componentes
         radioGroupType = findViewById(R.id.radioGroupType);
         rbPizza = findViewById(R.id.rbPizza);
         rbBebida = findViewById(R.id.rbBebida);
@@ -59,8 +60,6 @@ public class TelaPrincipal extends AppCompatActivity {
         String cidade = intent.getStringExtra("cidade");
         user.setCidade(cidade);
 
-
-        // Listener para o RadioGroup
         radioGroupType.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbPizza) {
                 pizzaFields.setVisibility(View.VISIBLE);
@@ -71,7 +70,6 @@ public class TelaPrincipal extends AppCompatActivity {
             }
         });
 
-        // Listener para o CheckBox de Entrega
         cbEntrega.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 addressField.setVisibility(View.VISIBLE);
@@ -80,11 +78,9 @@ public class TelaPrincipal extends AppCompatActivity {
             }
         });
 
-        // Listener para o botão de finalizar pedido
         btnSubmit.setOnClickListener(v -> handleSubmit());
     }
 
-    // Método para lidar com o clique no botão "Finalizar Pedido"
     private void handleSubmit() {
         int id_usuario = user.getId();
 
@@ -103,7 +99,7 @@ public class TelaPrincipal extends AppCompatActivity {
             bebida = false;
             desc = "";
             if (tamanho.isEmpty() || sabor.isEmpty()) {
-                Toast.makeText(this, "Por favor, preencha o tamanho e o sabor da pizza.", Toast.LENGTH_SHORT).show();
+                Alert("Alerta","Por favor, preencha o tamanho e o sabor da pizza.");
                 return;
             }
         } else if (rbBebida.isChecked()) {
@@ -112,25 +108,28 @@ public class TelaPrincipal extends AppCompatActivity {
             sabor = "";
             tamanho = "";
             if (desc.isEmpty()) {
-                Toast.makeText(this, "Por favor, preencha a descrição da bebida.", Toast.LENGTH_SHORT).show();
+                Alert("Alerta","Por favor, preencha a descrição da bebida.");
                 return;
             }
+        }else{
+            Alert("Alerta","Por favor, selecione pizza ou bebida!");
+            return;
         }
 
         if (cbEntrega.isChecked()) {
             tele = true;
             if (endereco.isEmpty()) {
-                Toast.makeText(this, "Por favor, preencha o endereço para entrega.", Toast.LENGTH_SHORT).show();
+                Alert("Alerta","Por favor, preencha o endereço de entrega.");
                 return;
             }
-        }else{
+        } else {
             tele = false;
             endereco = "";
         }
 
-        System.out.println(id_usuario);
         new SubmitOrderTask().execute(id_usuario, pizza, tamanho, sabor, bebida, desc, tele, endereco);
     }
+
 
     private class SubmitOrderTask extends AsyncTask<Object, Void, String> {
         @Override
@@ -145,7 +144,8 @@ public class TelaPrincipal extends AppCompatActivity {
                 boolean tele = (boolean) params[6];
                 String endereco = (String) params[7];
 
-                String url = "http://192.168.1.6/PHP/ifome/cadastra_pedido.php";
+                String url = "http://200.132.172.207/PHP/cadastra_pedido.php";
+
                 JSONObject jsonValores = new JSONObject();
                 jsonValores.put("id_usuario", id_usuario);
                 jsonValores.put("pizza", pizza);
@@ -157,7 +157,45 @@ public class TelaPrincipal extends AppCompatActivity {
                 jsonValores.put("endereco", endereco);
 
                 conexaouniversal mandar = new conexaouniversal();
-                return mandar.postJSONObject(url, jsonValores);
+                String mensagem = mandar.postJSONObject(url, jsonValores);
+
+                System.out.println(jsonValores);
+                if (mensagem.contains("SUCCESS")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(TelaPrincipal.this);
+                            builder.setTitle("Pedido Realizado");
+                            builder.setMessage("Seu pedido foi realizado com sucesso!");
+
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    edtPizzaSize.setText("");
+                                    edtPizzaFlavor.setText("");
+                                    edtBebidaDescription.setText("");
+                                    edtAddress.setText("");
+                                    cbEntrega.setChecked(false);
+                                    radioGroupType.clearCheck();
+                                    pizzaFields.setVisibility(View.GONE);
+                                    bebidaFields.setVisibility(View.GONE);
+                                    addressField.setVisibility(View.GONE);
+                                }
+                            });
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                    });
+                }
+                else if (mensagem.contains("ERROR")) {
+
+                    Alert("Error", "Não foi possivel realizar o pedido! Veja se está tudo certo e tente novamente");
+
+                }else{
+                    Alert("Error", "Não foi possivel realizar o pedido! Verifique a conexão com a internet!");
+                }
+
+                return mensagem;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -173,5 +211,21 @@ public class TelaPrincipal extends AppCompatActivity {
                 Toast.makeText(TelaPrincipal.this, "Erro ao conectar com o servidor!", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void Alert(String title, String body){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(TelaPrincipal.this);
+                builder.setTitle(title);
+                builder.setMessage(body);
+
+                builder.setPositiveButton("OK", null);
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
     }
 }

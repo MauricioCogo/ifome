@@ -1,5 +1,7 @@
 package com.example.appifome;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -52,7 +54,7 @@ public class CadNovoUsuario extends AppCompatActivity {
         @Override
         protected String doInBackground(String... arg0) {
             try {
-                String url = "http://192.168.1.6/PHP/ifome/cadastra_usuario.php";
+                String url = "http://200.132.172.207/PHP/cadastra_usuario.php";
                 JSONObject jsonValores = new JSONObject();
 
                 jsonValores.put("nome", usrtemp.getNome().toString() );
@@ -64,6 +66,30 @@ public class CadNovoUsuario extends AppCompatActivity {
                 conexaouniversal mandar = new conexaouniversal();
 
                 String mensagem = mandar.postJSONObject(url,jsonValores);
+
+                if (mensagem.contains("SUCCESS")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(CadNovoUsuario.this);
+                            builder.setTitle("Cadastro Realizado");
+                            builder.setMessage("Usuário cadastrado com sucesso!");
+
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            });
+
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                    });
+                }
+
 
                 return mensagem;
 
